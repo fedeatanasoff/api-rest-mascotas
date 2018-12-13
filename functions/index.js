@@ -17,8 +17,12 @@ const createServer = () => {
     res.send(result);
   });
 
-  app.post("/mascotas", (req, res) => {
-    res.send("creando mascota");
+  app.post("/mascotas", async (req, res) => {
+    let { body } = req;
+    let mascota = new Mascotas(body);
+    await mascota.save();
+
+    res.sendStatus(204);
   });
 
   app.get("/mascotas/:id/daralta", (req, res) => {
