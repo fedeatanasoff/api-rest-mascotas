@@ -2,6 +2,7 @@ const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 mongoose.connect(
   "mongodb://fd:fd1234@ds145289.mlab.com:45289/rest-api",
@@ -11,6 +12,13 @@ mongoose.connect(
 const Mascotas = require("./Mascotas");
 
 const createServer = () => {
+  app.use(
+    cors({
+      origin: true
+    })
+  );
+
+  // --> RUTAS
   app.get("/mascotas", async (req, res) => {
     let result = await Mascotas.find({}).exec();
 
@@ -25,8 +33,12 @@ const createServer = () => {
     res.sendStatus(204);
   });
 
-  app.get("/mascotas/:id/daralta", (req, res) => {
-    res.send("dar alta");
+  app.delete("/mascotas/:id/daralta", async (req, res) => {
+    let { id } = req.params;
+
+    await Mascotas.deleteOne({ _id: id }).exec();
+
+    res.sendStatus(204);
   });
 
   return app;
