@@ -6,4 +6,4 @@ const Mascotas = mongoose.model("Mascota", {
   descripcion: String
 });
 
-exports = Mascotas;
+module.exports = Mascotas;

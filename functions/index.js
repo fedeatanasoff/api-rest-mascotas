@@ -3,13 +3,18 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://fd:fd1234@ds145289.mlab.com:45289/rest-api");
+mongoose.connect(
+  "mongodb://fd:fd1234@ds145289.mlab.com:45289/rest-api",
+  { useNewUrlParser: true }
+);
+
+const Mascotas = require("./Mascotas");
 
 const createServer = () => {
-  app.get("/mascotas", (req, res) => {
-    res.send({
-      mensaje: "hello friend"
-    });
+  app.get("/mascotas", async (req, res) => {
+    let result = await Mascotas.find({}).exec();
+
+    res.send(result);
   });
 
   app.post("/mascotas", (req, res) => {
