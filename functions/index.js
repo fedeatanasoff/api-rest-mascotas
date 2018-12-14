@@ -4,8 +4,12 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+const { username, password } = functions.config().mongo;
+
+const mongouri = `mongodb://${username}:${password}@ds145289.mlab.com:45289/rest-api`;
+
 mongoose.connect(
-  "mongodb://fd:fd1234@ds145289.mlab.com:45289/rest-api",
+  mongouri,
   { useNewUrlParser: true }
 );
 
